@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class File extends Model
+{
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'filepath',
+        'extension'
+    ];
+
+    /**
+     * Get the user that owns the file.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the attachment that owns the file.
+     */
+    public function attachment()
+    {
+        return $this->belongsTo(Attachment::class);
+    }
+
+    /**
+     * Get the village that owns the file.
+     */
+    public function village()
+    {
+        return $this->belongsTo(Village::class);
+    }
+
+    /**
+     * Get the care home that owns the file.
+     */
+    public function careHome()
+    {
+        return $this->belongsTo(CareHome::class);
+    }
+
+    /**
+     * Get the operator that owns the file.
+     */
+    public function operator()
+    {
+        return $this->belongsTo(Operator::class);
+    }
+}

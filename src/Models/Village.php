@@ -307,4 +307,14 @@ class Village extends Model
     {
         return ($this->status == 'Draft');
     }
+
+    /**
+     * Get the plan record associated with the village.
+     *
+     * @return DefaultVillageSize|HasOne
+     */
+    public function villageSize()
+    {
+        return $this->hasOne(DefaultVillageSize::class, 'id', 'village_size_id');
+    }
 }

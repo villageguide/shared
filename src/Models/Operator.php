@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Str;
 
 class Operator extends Model
 {
@@ -78,5 +79,13 @@ class Operator extends Model
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    /**
+     * @return string
+     */
+    public function publicLink()
+    {
+        return sprintf('/operator/%s', Str::slug($this->name, '-'));
     }
 }

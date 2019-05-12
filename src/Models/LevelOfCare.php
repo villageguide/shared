@@ -15,6 +15,7 @@ class LevelOfCare extends Model
         'village_id',
         'name',
         'is_default',
+        'default_id'
     ];
 
     /**

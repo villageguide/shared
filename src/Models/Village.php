@@ -341,4 +341,14 @@ class Village extends Model
             ($careHomesCount > 0) ? 'Care Home': ''
         );
     }
+
+    /**
+     * Get the events associated with the village.
+     *
+     * @return HasMany
+     */
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
 }

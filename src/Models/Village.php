@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Collection;
 
 class Village extends Model
 {
@@ -167,16 +169,6 @@ class Village extends Model
     }
 
     /**
-     * Get the photos associated with the village.
-     *
-     * @return HasMany
-     */
-    public function photos()
-    {
-        return $this->hasMany(Photo::class);
-    }
-
-    /**
      * Get the videos associated with the village.
      *
      * @return HasMany
@@ -264,6 +256,15 @@ class Village extends Model
         return $this->photos()->where('order', '1')->first();
     }
 
+    /**
+     * Get the photos associated with the village.
+     *
+     * @return HasMany
+     */
+    public function photos()
+    {
+        return $this->hasMany(Photo::class);
+    }
 
     /**
      * Get the care home record associated with the village.
@@ -318,28 +319,29 @@ class Village extends Model
         return $this->hasOne(DefaultVillageSize::class, 'id', 'village_size_id');
     }
 
-    public function villageTileCareName()
+    /**
+     * Get the properties associated with the village.
+     *
+     * @return HasMany
+     */
+    public function properties()
     {
-        $levelCareHomes = $this->levelOfCares()->whereIn('default_id', [1,2]);
-        $name = '';
+        return $this->hasMany(Property::class);
+    }
 
-        if ($levelCareHomes->count() ==  2) {
-            $name = 'Independent & Assisted Living';
-        } else {
-            $careHomes = $levelCareHomes->first();
-            if ($careHomes) {
-                $name = $careHomes->name;
-            }
-        }
-
-        $careHomesCount = $this->levelOfCares()->whereNotIn('default_id', [1,2])->count();
-
-        return sprintf(
-            '%s%s%s',
-            $name,
-            (($name != '' && $careHomesCount > 0) ? ' + ' : ''),
-            ($careHomesCount > 0) ? 'Care Home': ''
-        );
+    /**
+     * @return Collection
+     */
+    public function eventList()
+    {
+        return $this->events()
+            ->select('events.*')
+            ->where('event_times.date', '>=', Carbon::now())
+            ->with('eventTimes')
+            ->join('event_times', 'event_times.event_id', '=', 'events.id')
+            ->groupBy('events.id')
+            ->orderBy('event_times.date')
+            ->get();
     }
 
     /**

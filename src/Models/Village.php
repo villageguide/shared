@@ -345,6 +345,33 @@ class Village extends Model
     }
 
     /**
+     * @return string
+     */
+    public function villageTileCareName()
+    {
+        $levelCareHomes = $this->levelOfCares()->whereIn('default_id', [1,2]);
+        $name = '';
+
+        if ($levelCareHomes->count() ==  2) {
+            $name = 'Independent & Assisted Living';
+        } else {
+            $careHomes = $levelCareHomes->first();
+            if ($careHomes) {
+                $name = $careHomes->name;
+            }
+        }
+
+        $careHomesCount = $this->levelOfCares()->whereNotIn('default_id', [1,2])->count();
+
+        return sprintf(
+            '%s%s%s',
+            $name,
+            (($name != '' && $careHomesCount > 0) ? ' + ' : ''),
+            ($careHomesCount > 0) ? 'Care Home': ''
+        );
+    }
+
+    /**
      * Get the events associated with the village.
      *
      * @return HasMany

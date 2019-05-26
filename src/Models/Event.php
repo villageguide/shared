@@ -61,4 +61,31 @@ class Event extends Model
     {
         return $this->hasOne(File::class, 'id', 'image_id');
     }
+
+    /**
+     * @return string
+     */
+    public function eventDateName()
+    {
+        if ($this->eventTimes()->count() > 1) {
+            $minDate = $this->eventTimes()->orderBy('Date')->first()->date;
+            $maxDate = $this->eventTimes()->orderBy('Date', 'desc')->first()->date;
+
+            if ($minDate->format('m') === $maxDate->format('m')) {
+                return sprintf('%s - %s %s', $minDate->format('d'), $maxDate->format('d'), $minDate->format('M'));
+            } else {
+                return sprintf(
+                    '%s %s - %s %s',
+                    $minDate->format('d'),
+                    $minDate->format('M'),
+                    $maxDate->format('d'),
+                    $maxDate->format('M')
+                );
+            }
+        }
+
+        $eventTime = $this->eventTimes()->first();
+
+        return $eventTime->date->format('l d F');
+    }
 }

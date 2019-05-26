@@ -56,4 +56,12 @@ class File extends Model
     {
         return $this->belongsTo(Operator::class);
     }
+
+    /**
+     * Get the operator that owns the file.
+     */
+    public function propertyPhoto()
+    {
+        return $this->belongsTo(PropertyPhoto::class);
+    }
 }

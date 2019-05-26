@@ -14,6 +14,6 @@ class PriceRangeList extends Model
     protected $fillable = [
         'min_price',
         'max_price',
-        'title',
+        'name',
     ];
 }

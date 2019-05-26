@@ -5,6 +5,7 @@ namespace App\Traits;
 use App\Models\CareHome;
 use App\Models\Country;
 use App\Models\DefaultLegalTitle;
+use App\Models\DefaultLevelOfCare;
 use App\Models\District;
 use App\Models\Operator;
 use App\Models\Plan;
@@ -97,11 +98,17 @@ trait VillageTrait
 
         if (is_array($defaultOptions)) {
             foreach ($defaultOptions as $option) {
-                array_push($insert, [
+                $insertArray = [
                     'name'           => $option,
                     'is_default'     => true,
                     $objectFieldName => $objectId,
-                ]);
+                ];
+                if ($name == 'level-of-care') {
+                    $defaultCare = DefaultLevelOfCare::where('name', $option)->first();
+                    $insertArray['default_id'] = $defaultCare->id;
+                }
+
+                array_push($insert, $insertArray);
             }
         }
 

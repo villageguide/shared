@@ -40,7 +40,7 @@ class EventTime extends Model
      */
     public function formattedTimeStart()
     {
-        $time = Carbon::createFromFormat('H:i:s', $this->time_start)->format('h:i A');
+        $time = Carbon::createFromFormat('H:i:s', $this->time_start)->format('g:ia');
 
         return str_replace(':00', '', $time);
     }
@@ -50,7 +50,7 @@ class EventTime extends Model
      */
     public function formattedTimeEnd()
     {
-        $time = Carbon::createFromFormat('H:i:s', $this->time_end)->format('h:i A');
+        $time = Carbon::createFromFormat('H:i:s', $this->time_end)->format('g:ia');
 
         return str_replace(':00', '', $time);
     }

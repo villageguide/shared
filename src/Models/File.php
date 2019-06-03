@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class File extends Model
 {
@@ -63,5 +64,14 @@ class File extends Model
     public function propertyPhoto()
     {
         return $this->belongsTo(PropertyPhoto::class);
+    }
+
+    /**
+     *  Delete file in the storage
+     */
+    public function delete()
+    {
+        parent::delete();
+        Storage::delete($this->filepath);
     }
 }

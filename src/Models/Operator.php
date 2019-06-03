@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class Operator extends Model
@@ -87,5 +88,19 @@ class Operator extends Model
     public function publicLink()
     {
         return sprintf('/operator/%s', Str::slug($this->name, '-'));
+    }
+
+    /**
+     * @return Collection
+     */
+    public function properties()
+    {
+        $properties = new Collection();
+        $villageIds = $this->villages()->pluck('id', 'id')->toArray();
+        if (!empty($villageIds)) {
+            $properties = Property::whereIn('village_id', $villageIds)->get();
+        }
+
+        return $properties;
     }
 }

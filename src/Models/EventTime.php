@@ -36,11 +36,19 @@ class EventTime extends Model
     }
 
     /**
+     * @param boolean $isBackEnd
+     *
      * @return string
      */
-    public function formattedTimeStart()
+    public function formattedTimeStart($isBackEnd = false)
     {
-        $time = Carbon::createFromFormat('H:i:s', $this->time_start)->format('g:ia');
+        $startDate = Carbon::createFromFormat('H:i:s', $this->time_start);
+        $time = $startDate->format('g:i a');
+
+        if ($isBackEnd) {
+            return $startDate->format('g:i A');
+
+        }
 
         return str_replace(':00', '', $time);
     }
@@ -48,9 +56,14 @@ class EventTime extends Model
     /**
      * @return string
      */
-    public function formattedTimeEnd()
+    public function formattedTimeEnd($isBackEnd = false)
     {
-        $time = Carbon::createFromFormat('H:i:s', $this->time_end)->format('g:ia');
+        $endTime = Carbon::createFromFormat('H:i:s', $this->time_end);
+        $time = $endTime->format('g:i a');
+
+        if ($isBackEnd) {
+            return $endTime->format('g:i A');
+        }
 
         return str_replace(':00', '', $time);
     }

@@ -55,13 +55,13 @@ class Village extends Model
     }
 
     /**
-     * Get the accommodation options associated with the village.
+     * Get the types of homes associated with the village.
      *
      * @return HasMany
      */
-    public function accommodationOptions()
+    public function typesOfHomes()
     {
-        return $this->hasMany(AccommodationOption::class);
+        return $this->hasMany(TypesOfHome::class);
     }
 
     /**
@@ -345,6 +345,16 @@ class Village extends Model
     }
 
     /**
+     * Get the events associated with the village.
+     *
+     * @return HasMany
+     */
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    /**
      * @return string
      */
     public function villageTileCareName()
@@ -369,15 +379,5 @@ class Village extends Model
             (($name != '' && $careHomesCount > 0) ? ' + ' : ''),
             ($careHomesCount > 0) ? 'Care Home': ''
         );
-    }
-
-    /**
-     * Get the events associated with the village.
-     *
-     * @return HasMany
-     */
-    public function events()
-    {
-        return $this->hasMany(Event::class);
     }
 }

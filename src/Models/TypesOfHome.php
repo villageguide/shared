@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TypesOfHome extends Model
 {
@@ -18,10 +19,42 @@ class TypesOfHome extends Model
     ];
 
     /**
-     * Get the village that owns the accommodation option.
+     * Get the village that owns the types of home.
      */
     public function village()
     {
         return $this->belongsTo(Village::class);
+    }
+
+    /**
+     * @return Model|HasMany|object|null
+     */
+    public function mainPhoto()
+    {
+        return $this->photos()->where('order', '1')->first();
+    }
+
+    /**
+     * Get the photos associated with the types of home.
+     *
+     * @return HasMany
+     */
+    public function photos()
+    {
+        return $this->hasMany(TypesOfHomePhoto::class);
+    }
+
+    public function renderPhotos()
+    {
+        $photos = $this->photos()->limit(10)->orderBy('id', 'asc')->get();
+
+        $photoLinkArray = [];
+        if ($photos->count() > 0) {
+            foreach ($photos as $photo) {
+                $photoLinkArray[$photo->order] = $photo->file->filepath;
+            }
+        }
+
+        return $photoLinkArray;
     }
 }

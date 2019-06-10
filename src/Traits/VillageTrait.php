@@ -10,6 +10,7 @@ use App\Models\District;
 use App\Models\Operator;
 use App\Models\Plan;
 use App\Models\Region;
+use App\Models\TypesOfHome;
 use App\Models\User;
 use App\Models\Village;
 use Illuminate\Http\Request;
@@ -127,15 +128,21 @@ trait VillageTrait
         $name = str_replace('-', ' ', $name);
         $object = 'App\Models\\' . str_replace(' ', '', ucwords($name));
 
-        if ($name == 'accommodation') {
-            $object = 'App\Models\AccommodationOption';
-        }
-
         if (count($insert) > 0) {
             $object::insert($insert);
         }
 
         if (count($delete) > 0) {
+            if ($name == 'types-of-homes') {
+                foreach ($delete as $id) {
+                    $typesOfHome = TypesOfHome::find($id);
+
+                    foreach ($typesOfHome->photos as $photo) {
+                        $photo->file->delete();
+                    }
+                }
+            }
+
             $object::whereIn('id', $delete)->delete();
         }
     }
@@ -262,14 +269,14 @@ trait VillageTrait
                 ->whereNotNull('email_verified_at')
                 ->OrderBy('first_name')
                 ->get(),
-            'pendingUsers'  => $this->user->operator
+            'pendingUsers' => $this->user->operator
                 ->users()
                 ->whereNull('email_verified_at')
                 ->OrderBy('first_name')
                 ->get(),
             'villageList'  => $this->user->parent->villages()->orderBy('name')->get(),
             'operatorList' => $this->operatorList(),
-            'operatorID' => $this->user->operator_id,
+            'operatorID'   => $this->user->operator_id,
         ];
 
         if ($this->user->hasRole('super-admin')) {

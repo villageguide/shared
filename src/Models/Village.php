@@ -263,7 +263,7 @@ class Village extends Model
      */
     public function photos()
     {
-        return $this->hasMany(Photo::class);
+        return $this->hasMany(Photo::class)->orderBy('order');
     }
 
     /**
@@ -379,5 +379,21 @@ class Village extends Model
             (($name != '' && $careHomesCount > 0) ? ' + ' : ''),
             ($careHomesCount > 0) ? 'Care Home': ''
         );
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getIndependentLiving()
+    {
+        return $this->typesOfHomes->whereIn('name', ['Villas', 'Townhouses', 'Apartments']);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAssistedLiving()
+    {
+        return $this->typesOfHomes->whereIn('name', ['Apartments']);
     }
 }

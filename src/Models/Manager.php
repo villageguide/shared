@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Manager extends Model
 {
@@ -17,6 +18,7 @@ class Manager extends Model
         'name',
         'phone',
         'email',
+        'photo_id',
     ];
 
     /**
@@ -25,5 +27,14 @@ class Manager extends Model
     public function village()
     {
         return $this->belongsTo(Village::class);
+    }
+
+
+    /**
+     * @return HasOne
+     */
+    public function photo()
+    {
+        return $this->hasOne(File::class, 'id', 'photo_id');
     }
 }

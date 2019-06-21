@@ -74,4 +74,12 @@ class File extends Model
         parent::delete();
         Storage::delete($this->filepath);
     }
+
+    /**
+     * Get the manager that owns the file.
+     */
+    public function manager()
+    {
+        return $this->belongsTo(Manager::class);
+    }
 }

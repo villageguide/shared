@@ -44,6 +44,9 @@ class TypesOfHome extends Model
         return $this->hasMany(TypesOfHomePhoto::class);
     }
 
+    /**
+     * @return array
+     */
     public function renderPhotos()
     {
         $photos = $this->photos()->limit(10)->orderBy('id', 'asc')->get();

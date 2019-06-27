@@ -43,7 +43,7 @@ class EventTime extends Model
     public function formattedTimeStart($isBackEnd = false)
     {
         $startDate = Carbon::createFromFormat('H:i:s', $this->time_start);
-        $time = $startDate->format('g:i a');
+        $time = $startDate->format('g:ia');
 
         if ($isBackEnd) {
             return $startDate->format('g:i A');
@@ -59,7 +59,7 @@ class EventTime extends Model
     public function formattedTimeEnd($isBackEnd = false)
     {
         $endTime = Carbon::createFromFormat('H:i:s', $this->time_end);
-        $time = $endTime->format('g:i a');
+        $time = $endTime->format('g:ia');
 
         if ($isBackEnd) {
             return $endTime->format('g:i A');

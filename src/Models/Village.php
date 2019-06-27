@@ -330,6 +330,16 @@ class Village extends Model
     }
 
     /**
+     * Get the active properties associated with the village.
+     *
+     * @return HasMany
+     */
+    public function activeProperties()
+    {
+        return $this->hasMany(Property::class)->where('status', 'Active');
+    }
+
+    /**
      * @return Collection
      */
     public function eventList()

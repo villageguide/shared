@@ -155,6 +155,14 @@ class CareHome extends Model
     }
 
     /**
+     * @return Photo
+     */
+    public function mainPhoto()
+    {
+        return $this->photos()->where('order', '1')->first();
+    }
+
+    /**
      * Get the photos associated with the care home.
      *
      * @return HasMany

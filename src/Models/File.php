@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class File extends Model
 {
@@ -81,5 +82,30 @@ class File extends Model
     public function manager()
     {
         return $this->belongsTo(Manager::class);
+    }
+
+
+    /**
+     * Resize image for template
+     * @param $width
+     * @param $height
+     *
+     * @return mixed
+     */
+    public function resize($width, $height)
+    {
+        $hash = md5($width . $height);
+
+        $filePathParts = explode('.'.$this->extension, $this->filepath);
+
+        $resizedFilePath = sprintf('%s_%s.%s', $filePathParts[0], $hash, $this->extension);
+
+        if (file_exists($resizedFilePath)) {
+            return $resizedFilePath;
+        }
+
+        Image::make($this->filepath)->resize($width, $height)->save($resizedFilePath);
+
+        return $resizedFilePath;
     }
 }

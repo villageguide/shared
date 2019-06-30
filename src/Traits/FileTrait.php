@@ -27,7 +27,7 @@ trait FileTrait
             $path = $uploadFile->store(sprintf('assets/%s', $assetFolder));
         }
 
-        $file->filename  = $uploadFile->getClientOriginalName();
+        $file->filename  = $randomName;
         $file->title     = $uploadFile->getClientOriginalName();
         $file->filepath  = $path;
         $file->extension = $uploadFile->extension();

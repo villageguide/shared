@@ -396,7 +396,7 @@ class Village extends Model
      */
     public function getIndependentLiving()
     {
-        return $this->typesOfHomes->whereIn('name', ['Villas', 'Townhouses', 'Apartments']);
+        return $this->typesOfHomes->whereIn('name', ['Villas', 'Townhouses', 'Apartments'])->where('status', 'Active');
     }
 
     /**
@@ -404,6 +404,16 @@ class Village extends Model
      */
     public function getAssistedLiving()
     {
-        return $this->typesOfHomes->whereIn('name', ['Apartments']);
+        return $this->typesOfHomes->whereIn('name', ['Serviced Apartments'])->where('status', 'Active');
+    }
+
+    /**
+     * @return Collection
+     */
+    public function typesOfHomesActiveOrder()
+    {
+        return $this->typesOfHomes()->where('status', 'Active')
+            ->orderByRaw('FIELD(name, "Villas", "Townhouses", "Apartments", "Serviced Apartments")')
+            ->get();
     }
 }

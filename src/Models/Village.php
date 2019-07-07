@@ -55,16 +55,6 @@ class Village extends Model
     }
 
     /**
-     * Get the types of homes associated with the village.
-     *
-     * @return HasMany
-     */
-    public function typesOfHomes()
-    {
-        return $this->hasMany(TypesOfHome::class);
-    }
-
-    /**
      * Get the living option associated with the village.
      *
      * @return LivingOption|HasOne
@@ -219,16 +209,6 @@ class Village extends Model
     }
 
     /**
-     * Get the level of cares associated with the village.
-     *
-     * @return HasMany
-     */
-    public function levelOfCares()
-    {
-        return $this->hasMany(LevelOfCare::class);
-    }
-
-    /**
      * Get the enquires associated with the village.
      *
      * @return HasMany
@@ -275,7 +255,6 @@ class Village extends Model
     {
         return $this->hasOne(CareHome::class, 'id', 'care_home_id');
     }
-
 
     /**
      * @return string
@@ -369,10 +348,10 @@ class Village extends Model
      */
     public function villageTileCareName()
     {
-        $levelCareHomes = $this->levelOfCares()->whereIn('default_id', [1,2]);
+        $levelCareHomes = $this->levelOfCares()->whereIn('default_id', [1, 2]);
         $name = '';
 
-        if ($levelCareHomes->count() ==  2) {
+        if ($levelCareHomes->count() == 2) {
             $name = 'Independent & Assisted Living';
         } else {
             $careHomes = $levelCareHomes->first();
@@ -381,14 +360,24 @@ class Village extends Model
             }
         }
 
-        $careHomesCount = $this->levelOfCares()->whereNotIn('default_id', [1,2])->count();
+        $careHomesCount = $this->levelOfCares()->whereNotIn('default_id', [1, 2])->count();
 
         return sprintf(
             '%s%s%s',
             $name,
             (($name != '' && $careHomesCount > 0) ? ' + ' : ''),
-            ($careHomesCount > 0) ? 'Care Home': ''
+            ($careHomesCount > 0) ? 'Care Home' : ''
         );
+    }
+
+    /**
+     * Get the level of cares associated with the village.
+     *
+     * @return HasMany
+     */
+    public function levelOfCares()
+    {
+        return $this->hasMany(LevelOfCare::class);
     }
 
     /**
@@ -419,13 +408,42 @@ class Village extends Model
     }
 
     /**
+     * Get the types of homes associated with the village.
+     *
+     * @return HasMany
+     */
+    public function typesOfHomes()
+    {
+        return $this->hasMany(TypesOfHome::class);
+    }
+
+    /**
      * @return Model|TypesOfHome
      */
     public function typesOfHomeCareHome()
     {
         return $this->typesOfHomes()->where([
-            'status' =>  'Active',
-            'name' => 'Care home',
+            'status' => 'Active',
+            'name'   => 'Care home',
         ])->first();
+    }
+
+    /**
+     * @return array
+     */
+    public function imagesForSlider()
+    {
+        $photoArray = [];
+        foreach ($this->photos as $photo) {
+            array_push(
+                $photoArray,
+                [
+                    'thumb' => asset($photo->file->resize(120, 90)),
+                    'src'   => asset($photo->file->resize(1100, 607)),
+                ]
+            );
+        }
+
+        return $photoArray;
     }
 }

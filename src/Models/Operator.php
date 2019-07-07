@@ -103,4 +103,17 @@ class Operator extends Model
 
         return $properties;
     }
+
+    /**
+     * @return array
+     */
+    public function enquiries()
+    {
+        $villageIdArray = $this->villages->pluck('id', 'id')->toArray();
+        if (count($villageIdArray) > 0) {
+            return Enquiry::whereIn('village_id', $villageIdArray)->orderBy('created_at', 'desc');
+        }
+
+        return [];
+    }
 }

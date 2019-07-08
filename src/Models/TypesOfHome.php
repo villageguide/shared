@@ -60,4 +60,23 @@ class TypesOfHome extends Model
 
         return $photoLinkArray;
     }
+
+    /**
+     * @return array
+     */
+    public function imagesForSlider()
+    {
+        $photoArray = [];
+        foreach ($this->photos as $photo) {
+            array_push(
+                $photoArray,
+                [
+                    'thumb' => asset($photo->file->resize(120, 90)),
+                    'src'   => asset($photo->file->resize(1100, 607)),
+                ]
+            );
+        }
+
+        return $photoArray;
+    }
 }

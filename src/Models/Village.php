@@ -229,7 +229,7 @@ class Village extends Model
     }
 
     /**
-     * @return Photo
+     * return Photo|Model
      */
     public function mainPhoto()
     {

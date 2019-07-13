@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -194,5 +195,27 @@ class CareHome extends Model
     public function isDraft()
     {
         return ($this->status == 'Draft');
+    }
+
+    /**
+     * @return Collection
+     */
+    public function roomTypesActiveOrder()
+    {
+        return $this->roomTypes()->where('status', 'Active')
+            ->where('name', '!=', 'Retirement Village')
+            ->orderByRaw('FIELD(name, "Standard", "Premium", "Care suites", "Retirement Village")')
+            ->get();
+    }
+
+    /**
+     * @return Model|TypesOfHome
+     */
+    public function roomTypeRetirementVillage()
+    {
+        return $this->roomTypes()->where([
+            'status' => 'Active',
+            'name'   => 'Retirement Village',
+        ])->first();
     }
 }

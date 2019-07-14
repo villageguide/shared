@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CareHomeManager extends Model
 {
@@ -25,5 +26,13 @@ class CareHomeManager extends Model
     public function careHome()
     {
         return $this->belongsTo(careHome::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function photo()
+    {
+        return $this->hasOne(File::class, 'id', 'photo_id');
     }
 }

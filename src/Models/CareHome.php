@@ -237,4 +237,14 @@ class CareHome extends Model
 
         return $photoArray;
     }
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function isActiveLevelOfCare($name)
+    {
+        return (in_array($name, $this->levelOfCare()->pluck('name', 'name')->toArray()));
+    }
 }

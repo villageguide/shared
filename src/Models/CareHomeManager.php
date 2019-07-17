@@ -18,6 +18,7 @@ class CareHomeManager extends Model
         'name',
         'phone',
         'email',
+        'photo_id',
     ];
 
     /**

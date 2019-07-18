@@ -170,7 +170,7 @@ class CareHome extends Model
      */
     public function photos()
     {
-        return $this->hasMany(CareHomePhoto::class);
+        return $this->hasMany(CareHomePhoto::class)->orderBy('order');
     }
 
     /**

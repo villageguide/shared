@@ -36,4 +36,16 @@ class CareHomeManager extends Model
     {
         return $this->hasOne(File::class, 'id', 'photo_id');
     }
+
+    /**
+     * @return string
+     */
+    public function fullNameInitial()
+    {
+        $nameParts = explode(' ', $this->name);
+        $nameFirst = $nameParts[0];
+        $namLast = $nameParts[count($nameParts) - 1];
+
+        return sprintf('%s%s', substr($nameFirst, 0, 1), substr($namLast, 0, 1));
+    }
 }

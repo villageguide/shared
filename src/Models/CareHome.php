@@ -247,4 +247,12 @@ class CareHome extends Model
     {
         return (in_array($name, $this->levelOfCare()->pluck('name', 'name')->toArray()));
     }
+
+    /**
+     * @return string
+     */
+    public function link()
+    {
+        return sprintf('/care-homes/%s', $this->url_segment);
+    }
 }

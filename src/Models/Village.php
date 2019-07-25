@@ -446,4 +446,12 @@ class Village extends Model
 
         return $photoArray;
     }
+
+    /**
+     * @return string
+     */
+    public function link()
+    {
+        return sprintf('/village/%s', $this->url_segment);
+    }
 }

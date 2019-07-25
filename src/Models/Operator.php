@@ -116,4 +116,12 @@ class Operator extends Model
 
         return [];
     }
+
+    /**
+     * @return HasMany
+     */
+    public function reportEmails()
+    {
+        return $this->hasMany(ReportEmail::class);
+    }
 }

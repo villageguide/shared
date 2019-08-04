@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class Property extends Model
 {
@@ -46,5 +49,27 @@ class Property extends Model
     public function accommodations()
     {
         return $this->hasMany(PropertyAccommodation::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function favourite()
+    {
+        if (class_exists(Favourite::class)) {
+            return Favourite::where([
+                'type'      => 'Property',
+                'type_id'   => $this->id,
+                'member_id' => Auth::user()->id,
+            ])->first();
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function link()
+    {
+        return sprintf('property/%s', Str::slug($input['title'], '-'));
     }
 }

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class Village extends Model
 {
@@ -453,5 +454,19 @@ class Village extends Model
     public function link()
     {
         return sprintf('/village/%s', $this->url_segment);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function favourite()
+    {
+        if (class_exists(Favourite::class)) {
+            return Favourite::where([
+                'type'      => 'Village',
+                'type_id'   => $this->id,
+                'member_id' => Auth::user()->id,
+            ])->first();
+        }
     }
 }

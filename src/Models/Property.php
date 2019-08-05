@@ -56,7 +56,7 @@ class Property extends Model
      */
     public function favourite()
     {
-        if (class_exists(Favourite::class)) {
+        if (class_exists(Favourite::class) && Auth::user()) {
             return Favourite::where([
                 'type'      => 'Property',
                 'type_id'   => $this->id,

@@ -70,6 +70,6 @@ class Property extends Model
      */
     public function link()
     {
-        return sprintf('property/%s', Str::slug($input['title'], '-'));
+        return sprintf('property/%s', Str::slug($this->title, '-'));
     }
 }

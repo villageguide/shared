@@ -461,7 +461,7 @@ class Village extends Model
      */
     public function favourite()
     {
-        if (class_exists(Favourite::class)) {
+        if (class_exists(Favourite::class) && Auth::user()) {
             return Favourite::where([
                 'type'      => 'Village',
                 'type_id'   => $this->id,

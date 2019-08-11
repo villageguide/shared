@@ -220,7 +220,7 @@ class Village extends Model
     }
 
     /**
-     * Get the plan record associated with the village.
+     * Get the plan record associated with the operator.
      *
      * @return Plan|HasOne
      */

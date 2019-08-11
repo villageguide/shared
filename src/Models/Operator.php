@@ -87,7 +87,7 @@ class Operator extends Model
      */
     public function publicLink()
     {
-        return sprintf('/operator/%s', Str::slug($this->name, '-'));
+        return sprintf('/operator/%s', $this->url_segment);
     }
 
     /**

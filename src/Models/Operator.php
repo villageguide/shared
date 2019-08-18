@@ -124,4 +124,21 @@ class Operator extends Model
     {
         return $this->hasMany(ReportEmail::class);
     }
+
+    /**
+     * @return int
+     */
+    public function countActiveTypesOfHomes()
+    {
+        $activeItems = $this->typesOfHomes()->where('status', 'Active')->get();
+        $count = 0;
+
+        foreach ($activeItems as $item) {
+            if ($item->mainPhoto()) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
 }

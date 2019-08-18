@@ -469,4 +469,21 @@ class Village extends Model
             ])->first();
         }
     }
+
+    /**
+     * @return int
+     */
+    public function countActiveTypesOfHomes()
+    {
+        $activeItems = $this->typesOfHomes()->where('status', 'Active')->get();
+        $count = 0;
+
+        foreach ($activeItems as $item) {
+            if ($item->mainPhoto()) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
 }

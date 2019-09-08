@@ -269,4 +269,21 @@ class CareHome extends Model
     {
         return ($this->plan->name == 'Free');
     }
+
+    /**
+     * @return int
+     */
+    public function countActiveRoomTypes()
+    {
+        $activeItems = $this->roomTypes()->where('status', 'Active')->get();
+        $count = 0;
+
+        foreach ($activeItems as $item) {
+            if ($item->mainPhoto()) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
 }

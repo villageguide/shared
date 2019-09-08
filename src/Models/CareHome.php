@@ -259,7 +259,7 @@ class CareHome extends Model
      */
     public function isEssentialCareHome()
     {
-        return ($this->plan->name == 'Essential' || Auth::user()->hasRole('super-admin'));
+        return ($this->plan->name == 'Essential');
     }
 
     /**
@@ -267,6 +267,6 @@ class CareHome extends Model
      */
     public function isFreeCareHome()
     {
-        return ($this->plan->name == 'Free' && !Auth::user()->hasRole('super-admin'));
+        return ($this->plan->name == 'Free');
     }
 }

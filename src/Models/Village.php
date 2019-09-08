@@ -492,7 +492,7 @@ class Village extends Model
      */
     public function isPremiumVillage()
     {
-        return ($this->plan->name == 'Premium' || Auth::user()->hasRole('super-admin'));
+        return ($this->plan->name == 'Premium');
     }
 
     /**
@@ -500,6 +500,6 @@ class Village extends Model
      */
     public function isFreeVillage()
     {
-        return ($this->plan->name == 'Free' && !Auth::user()->hasRole('super-admin'));
+        return ($this->plan->name == 'Free');
     }
 }

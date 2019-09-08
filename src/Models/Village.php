@@ -486,4 +486,20 @@ class Village extends Model
 
         return $count;
     }
+
+    /**
+     * @return bool
+     */
+    public function isPremiumVillage()
+    {
+        return ($this->plan->name == 'Premium' || Auth::user()->hasRole('super-admin'));
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFreeVillage()
+    {
+        return ($this->plan->name == 'Free' && !Auth::user()->hasRole('super-admin'));
+    }
 }

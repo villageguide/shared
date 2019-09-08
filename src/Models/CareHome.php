@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Auth;
 
 class CareHome extends Model
 {
@@ -209,17 +210,6 @@ class CareHome extends Model
     }
 
     /**
-     * @return Model|TypesOfHome
-     */
-    public function roomTypeRetirementVillage()
-    {
-        return $this->roomTypes()->where([
-            'status' => 'Active',
-            'name'   => 'Retirement Village',
-        ])->first();
-    }
-
-    /**
      * @return array
      */
     public function imagesForSlider()
@@ -254,5 +244,29 @@ class CareHome extends Model
     public function link()
     {
         return sprintf('/care-homes/%s', $this->url_segment);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function plan()
+    {
+        return $this->hasOne(CareHomePlan::class, 'id', 'care_home_plan_id');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEssentialCareHome()
+    {
+        return ($this->plan->name == 'Essential' || Auth::user()->hasRole('super-admin'));
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFreeCareHome()
+    {
+        return ($this->plan->name == 'Free' && !Auth::user()->hasRole('super-admin'));
     }
 }

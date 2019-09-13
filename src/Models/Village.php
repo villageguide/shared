@@ -436,13 +436,15 @@ class Village extends Model
     {
         $photoArray = [];
         foreach ($this->photos as $photo) {
-            array_push(
-                $photoArray,
-                [
-                    'thumb' => asset($photo->file->resize(120, 90)),
-                    'src'   => asset($photo->file->resize(1100, 607)),
-                ]
-            );
+            if (file_exists($photo->file->filepath)) {
+                array_push(
+                    $photoArray,
+                    [
+                        'thumb' => asset($photo->file->resize(120, 90)),
+                        'src'   => asset($photo->file->resize(1100, 607)),
+                    ]
+                );
+            }
         }
 
         return $photoArray;

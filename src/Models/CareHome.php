@@ -246,7 +246,7 @@ class CareHome extends Model
      */
     public function link()
     {
-        return sprintf('/care-homes/%s', $this->url_segment);
+        return sprintf('/care-home/%s', $this->url_segment);
     }
 
     /**

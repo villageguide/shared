@@ -521,4 +521,12 @@ class Village extends Model
 
         return $array;
     }
+
+    /**
+     * @return bool
+     */
+    public function canShowProperties()
+    {
+        return ($this->plan->name == 'Premium' || $this->plan->name == 'Essential');
+    }
 }

@@ -72,7 +72,7 @@ class TypesOfHome extends Model
                 $photoArray,
                 [
                     'thumb' => asset($photo->file->resize(120, 90)),
-                    'src'   => asset($photo->file->resize(1100, 607)),
+                    'src'   => asset($photo->file->widen(1100, 607)),
                 ]
             );
         }

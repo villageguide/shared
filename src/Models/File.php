@@ -104,7 +104,32 @@ class File extends Model
             return $resizedFilePath;
         }
 
-        Image::make($this->filepath)->resize($width, $height)->save($resizedFilePath);
+        if (file_exists($this->filepath)) {
+            Image::make($this->filepath)->fit($width, $height)->save($resizedFilePath);
+        }
+
+        return $resizedFilePath;
+    }
+
+    /**
+     * @param $width
+     *
+     * @return string
+     */
+    public function widen($width)
+    {
+        $hash = md5($width);
+
+        $filePathParts = explode('.'.$this->extension, $this->filepath);
+        $resizedFilePath = sprintf('%s_%s.%s', $filePathParts[0], $hash, $this->extension);
+
+        if (file_exists($resizedFilePath)) {
+            return $resizedFilePath;
+        }
+
+        if (file_exists($this->filepath)) {
+            Image::make($this->filepath)->widen($width)->save($resizedFilePath);
+        }
 
         return $resizedFilePath;
     }

@@ -24,7 +24,7 @@ class Property extends Model
      */
     public function mainPhoto()
     {
-        return $this->photos()->first();
+        return $this->photos()->where('order', '1')->first();
     }
 
     /**
@@ -32,7 +32,7 @@ class Property extends Model
      */
     public function photos()
     {
-        return $this->hasMany(PropertyPhoto::class);
+        return $this->hasMany(PropertyPhoto::class)->orderBy('order');
     }
 
     /**

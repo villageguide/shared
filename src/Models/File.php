@@ -105,7 +105,7 @@ class File extends Model
         }
 
         if (file_exists($this->filepath)) {
-            Image::make($this->filepath)->fit($width, $height)->save($resizedFilePath);
+            Image::make($this->filepath)->fit($width, $height)->crop($width, $height)->save($resizedFilePath);
         }
 
         return $resizedFilePath;

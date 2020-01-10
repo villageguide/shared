@@ -291,6 +291,16 @@ class CareHome extends Model
     }
 
     /**
+     * Get the enquires associated with the careHome.
+     *
+     * @return HasMany
+     */
+    public function enquiries()
+    {
+        return $this->hasMany(Enquiry::class);
+    }
+
+    /**
      * Get the indexable data array for the model.
      *
      * @return array

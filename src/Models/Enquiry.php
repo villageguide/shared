@@ -28,11 +28,19 @@ class Enquiry extends Model
     ];
 
     /**
-     * Get the village that owns the weblink.
+     * Get the village that owns the enquiry.
      */
     public function village()
     {
         return $this->belongsTo(Village::class);
+    }
+
+    /**
+     * Get the CareHome that owns the enquiry.
+     */
+    public function careHome()
+    {
+        return $this->belongsTo(CareHome::class);
     }
 
     /**

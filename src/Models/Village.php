@@ -529,4 +529,14 @@ class Village extends Model
     {
         return ($this->plan->name == 'Premium' || $this->plan->name == 'Essential');
     }
+
+    /**
+     * Get the premium village record associated with the village.
+     *
+     * @return VillagePremium|HasOne
+     */
+    public function premium()
+    {
+        return $this->hasOne(VillagePremium::class);
+    }
 }

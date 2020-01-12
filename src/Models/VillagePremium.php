@@ -38,4 +38,28 @@ class VillagePremium extends Model
     {
         return $this->hasOne(File::class, 'id', 'custom_file_id');
     }
+
+    /**
+     * @return Property|null
+     */
+    public function property()
+    {
+        if ($this->type == 'property') {
+            return Property::find($this->type_id);
+        }
+
+        return null;
+    }
+
+    /**
+     * @return Event|null
+     */
+    public function event()
+    {
+        if ($this->type == 'event') {
+            return Event::find($this->type_id);
+        }
+
+        return null;
+    }
 }

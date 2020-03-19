@@ -509,6 +509,14 @@ class Village extends Model
     }
 
     /**
+     * @return bool
+     */
+    public function canShowTypeOfHomes()
+    {
+        return ($this->plan->name == 'Premium' || $this->plan->name == 'Essential');
+    }
+
+    /**
      * Get the indexable data array for the model.
      *
      * @return array

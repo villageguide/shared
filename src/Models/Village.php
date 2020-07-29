@@ -394,7 +394,7 @@ class Village extends Model
             ->where('status', 'Active')
             ->count();
 
-        $independentLivingCount = $this->levelOfCares->filter('name', 'Independent Living')->count();
+        $independentLivingCount = $this->levelOfCares()->where('name', 'Independent Living')->count();
 
         return ($typesOfHomesCount > 0 || $independentLivingCount > 0);
     }
@@ -409,7 +409,7 @@ class Village extends Model
             ->where('status', 'Active')
             ->count();
 
-        $independentLivingCount = $this->levelOfCares->filter('name', 'Assisted Living')->count();
+        $independentLivingCount = $this->levelOfCares()->where('name', 'Assisted Living')->count();
 
         return ($typesOfHomesCount > 0 || $independentLivingCount > 0);
     }

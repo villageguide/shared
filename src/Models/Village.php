@@ -389,14 +389,9 @@ class Village extends Model
      */
     public function getIndependentLiving()
     {
-        $typesOfHomesCount = $this->typesOfHomes
-            ->whereIn('name', ['Villas', 'Townhouses', 'Apartments'])
-            ->where('status', 'Active')
-            ->count();
-
         $independentLivingCount = $this->levelOfCares()->where('name', 'Independent Living')->count();
 
-        return ($typesOfHomesCount > 0 || $independentLivingCount > 0);
+        return ($independentLivingCount > 0);
     }
 
     /**
@@ -404,14 +399,9 @@ class Village extends Model
      */
     public function getAssistedLiving()
     {
-        $typesOfHomesCount = $this->typesOfHomes
-            ->whereIn('name', ['Serviced Apartments'])
-            ->where('status', 'Active')
-            ->count();
+        $assistedLivingCount = $this->levelOfCares()->where('name', 'Assisted Living')->count();
 
-        $independentLivingCount = $this->levelOfCares()->where('name', 'Assisted Living')->count();
-
-        return ($typesOfHomesCount > 0 || $independentLivingCount > 0);
+        return ($assistedLivingCount > 0);
     }
 
     /**

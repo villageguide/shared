@@ -411,6 +411,7 @@ class Village extends Model
     {
         return $this->typesOfHomes()->where('status', 'Active')
             ->where('name', '!=', 'Care Home')
+            ->orderBy('order', 'asc')
             ->orderByRaw('FIELD(name, "Villas", "Townhouses", "Apartments", "Serviced Apartments")')
             ->get();
     }

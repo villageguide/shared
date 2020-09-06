@@ -208,6 +208,7 @@ class CareHome extends Model
     {
         return $this->roomTypes()->where('status', 'Active')
             ->where('name', '!=', 'Retirement Village')
+            ->orderBy('order', 'asc')
             ->orderByRaw('FIELD(name, "Standard rooms", "Premium rooms", "Care suites", "Retirement Village")')
             ->get();
     }

@@ -29,4 +29,14 @@ class Advert extends Model
     {
         return $this->hasOne(File::class, 'id', 'file_id');
     }
+
+    /**
+     * @return string
+     */
+    public function regionName()
+    {
+        if ($this->region) {
+            return Region::find($this->region)->first()->name;
+        }
+    }
 }

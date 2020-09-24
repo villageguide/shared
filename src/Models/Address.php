@@ -68,6 +68,16 @@ class Address extends Model
     }
 
     /**
+     * Get the suburb record associated with the address.
+     *
+     * @return Suburb|HasOne
+     */
+    public function suburb()
+    {
+        return $this->hasOne(Suburb::class, 'id', 'suburb_id');
+    }
+
+    /**
      * @return string
      */
     public function fullAddress()

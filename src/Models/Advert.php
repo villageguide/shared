@@ -39,4 +39,56 @@ class Advert extends Model
             return Region::find($this->region)->first()->name;
         }
     }
+
+    /**
+     * @return mixed
+     */
+    public function village()
+    {
+        return $this->hasOne(Village::class, 'id', 'village_id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function careHome()
+    {
+        return $this->hasOne(CareHome::class, 'id', 'care_home_id');
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function typeName()
+    {
+        if ($this->type == 'village') {
+            return ($this->village) ? $this->village->name : '';
+        }
+
+        return ($this->careHome) ? $this->careHome->name : '';
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function typeOperatorName()
+    {
+        if ($this->type == 'village') {
+            return ($this->village) ? $this->village->operator->name : '';
+        }
+
+        return ($this->careHome) ? $this->careHome->operator->name : '';
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function typeId()
+    {
+        if ($this->type == 'village') {
+            return ($this->village) ? $this->village->id : '';
+        }
+
+        return ($this->careHome) ? $this->careHome->id : '';
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Video extends Model
 {
@@ -54,5 +55,13 @@ class Video extends Model
             parse_str(parse_url($this->link, PHP_URL_QUERY), $arrayOfVars);
             return sprintf('https://img.youtube.com/vi/%s/0.jpg', $this->getVideoId());
         }
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function thumb()
+    {
+        return $this->hasOne(File::class, 'id', 'thumb_id');
     }
 }

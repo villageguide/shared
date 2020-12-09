@@ -32,4 +32,16 @@ class VirtualTour extends Model
     {
         return $this->belongsTo(CareHome::class);
     }
+
+    /**
+     * @return string|string[]|null
+     */
+    public function tourForModal()
+    {
+        return preg_replace(
+            ['/height="\d+"/i', '/width="\d+"/i'],
+            [sprintf('height="%d"', 600), sprintf('width="%s"', '100%')],
+            $this->iframe
+        );
+    }
 }

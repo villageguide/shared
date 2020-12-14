@@ -444,15 +444,29 @@ class Village extends Model
     {
         $photoArray = [];
         foreach ($this->photos as $photo) {
-            if (file_exists($photo->file->filepath)) {
-                array_push(
-                    $photoArray,
-                    [
-                        'thumb' => asset($photo->file->resize(120, 90)),
-                        'src'   => asset($photo->file->widen(1100, 607)),
-                    ]
-                );
+            array_push(
+                $photoArray,
+                [
+                    'thumb' => asset($photo->file->resize(120, 90)),
+                    'src'   => asset($photo->file->widen(1100, 607)),
+                ]
+            );
+        }
+
+        foreach ($this->videos as $video) {
+            $videoUrl = '';
+            if ($video->type == 'youtube') {
+                $videoUrl = sprintf('https://www.youtube.com/watch?v=%s', $video->link);
+            } elseif($video->type == 'vimeo') {
+                $videoUrl = sprintf('https://vimeo.com/%s', $video->link);
             }
+            array_push(
+                $photoArray,
+                [
+                    'thumb' => asset($video->thumb->resize(120, 90)),
+                    'src'   => $videoUrl,
+                ]
+            );
         }
 
         return $photoArray;

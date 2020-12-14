@@ -552,4 +552,14 @@ class Village extends Model
     {
         return $this->hasOne(VillagePremium::class);
     }
+
+    /**
+     * Get the virtual tours associated with the care home.
+     *
+     * @return HasMany
+     */
+    public function virtualTours()
+    {
+        return $this->hasMany(VirtualTour::class);
+    }
 }

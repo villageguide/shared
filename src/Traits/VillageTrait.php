@@ -345,6 +345,9 @@ trait VillageTrait
     private function addLightBoxArray(&$photoArray, $obj, $isVideo)
     {
         if ($isVideo) {
+            if (!$obj->thumb) {
+                return;
+            }
             $src = '';
             if ($obj->type == 'youtube') {
                 $src = sprintf('https://www.youtube.com/watch?v=%s', $obj->link);
@@ -353,6 +356,10 @@ trait VillageTrait
             }
             $thumb = asset($obj->thumb->resize(120, 90));
         } else {
+            if (!$obj->file) {
+                return;
+            }
+
             $src = asset($obj->file->widen(1100, 607));
             $thumb = asset($obj->file->resize(120, 90));
         }
@@ -372,6 +379,7 @@ trait VillageTrait
     public function imagesForTinySlider()
     {
         $photoArray = [];
+
         // if more than one video load all first and then images.
         if ($this->videos->count() > 1) {
             foreach ($this->videos as $video) {
@@ -397,6 +405,7 @@ trait VillageTrait
 
                 $this->addTinySliderArray($photoArray, $photo, false);
             }
+
             $this->addTinySliderArray($photoArray, $this->videos->first(), true);
 
             foreach ($this->photos as $key => $photo) {
@@ -425,9 +434,18 @@ trait VillageTrait
     private function addTinySliderArray(&$photoArray, $obj, $isVideo)
     {
         if ($isVideo) {
+            if (!$obj->thumb) {
+                return;
+            }
+
             $title = $obj->thumb->title;
             $src = asset($obj->thumb->resize(480, 350));
+
         } else {
+            if (!$obj->file) {
+                return;
+            }
+
             $title = $obj->file->title;
             $src = asset($obj->file->resize(480, 350));
         }

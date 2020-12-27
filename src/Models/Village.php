@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\VillageTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +15,7 @@ use Laravel\Scout\Searchable;
 
 class Village extends Model
 {
-    use Searchable;
+    use Searchable, VillageTrait;
 
     /**
      * The attributes that are mass assignable.

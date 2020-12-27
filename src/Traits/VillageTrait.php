@@ -295,4 +295,151 @@ trait VillageTrait
 
         return $data;
     }
+
+    /**
+     * @return array
+     */
+    public function imagesForLightBox()
+    {
+        $photoArray = [];
+        // if more than one video load all first and then images.
+        if ($this->videos->count() > 1) {
+            foreach ($this->videos as $video) {
+                $this->addLightBoxArray($photoArray, $video, true);
+            }
+
+            foreach ($this->photos as $photo) {
+                $this->addLightBoxArray($photoArray, $photo, false);
+            }
+
+            return $photoArray;
+        }  else if ($this->videos->count() == 1) {
+            // if only one video load in the middle(2nd)
+            if ($this->photos->first()) {
+                $this->addLightBoxArray($photoArray, $this->photos->first(), false);
+            }
+            $this->addLightBoxArray($photoArray, $this->videos->first(), true);
+
+            foreach ($this->photos as $key => $photo) {
+                if ($key == 0) {
+                    continue; // skip the first image
+                }
+                $this->addLightBoxArray($photoArray, $photo, false);
+            }
+
+            return $photoArray;
+        }
+
+        foreach ($this->photos as $photo) {
+            $this->addLightBoxArray($photoArray, $photo, false);
+        }
+
+        return $photoArray;
+    }
+
+    /**
+     * @param $photoArray
+     * @param $obj
+     * @param $isVideo
+     */
+    private function addLightBoxArray(&$photoArray, $obj, $isVideo)
+    {
+        if ($isVideo) {
+            $src = '';
+            if ($obj->type == 'youtube') {
+                $src = sprintf('https://www.youtube.com/watch?v=%s', $obj->link);
+            } elseif ($obj->type == 'vimeo') {
+                $src = sprintf('https://vimeo.com/%s', $obj->link);
+            }
+            $thumb = asset($obj->thumb->resize(120, 90));
+        } else {
+            $src = asset($obj->file->widen(1100, 607));
+            $thumb = asset($obj->file->resize(120, 90));
+        }
+
+        array_push(
+            $photoArray,
+            [
+                'thumb' => $thumb,
+                'src'   => $src,
+            ]
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function imagesForTinySlider()
+    {
+        $photoArray = [];
+        // if more than one video load all first and then images.
+        if ($this->videos->count() > 1) {
+            foreach ($this->videos as $video) {
+                if (!file_exists($video->thumb->filepath)) {
+                    continue;
+                }
+                $this->addTinySliderArray($photoArray, $video, true);
+            }
+
+            foreach ($this->photos as $photo) {
+                if (!file_exists($photo->file->filepath)) {
+                    continue;
+                }
+
+                $this->addTinySliderArray($photoArray, $photo, false);
+            }
+
+            return $photoArray;
+        }  else if ($this->videos->count() == 1) {
+            // if only one video load in the middle(2nd)
+            if ($this->photos->first()) {
+                $photo = $this->photos->first();
+
+                $this->addTinySliderArray($photoArray, $photo, false);
+            }
+            $this->addTinySliderArray($photoArray, $this->videos->first(), true);
+
+            foreach ($this->photos as $key => $photo) {
+                if ($key == 0) {
+                    continue; // skip the first image
+                }
+
+                $this->addTinySliderArray($photoArray, $photo, false);
+            }
+
+            return $photoArray;
+        }
+
+        foreach ($this->photos as $photo) {
+            $this->addTinySliderArray($photoArray, $photo, false);
+        }
+
+        return $photoArray;
+    }
+
+    /**
+     * @param $photoArray
+     * @param $obj
+     * @param $isVideo
+     */
+    private function addTinySliderArray(&$photoArray, $obj, $isVideo)
+    {
+        if ($isVideo) {
+            $title = $obj->thumb->title;
+            $src = asset($obj->thumb->resize(480, 350));
+        } else {
+            $title = $obj->file->title;
+            $src = asset($obj->file->resize(480, 350));
+        }
+
+        array_push(
+            $photoArray,
+            [
+                [
+                    'title' => $title,
+                    'src'   => $src,
+                ]
+            ]
+        );
+    }
 }

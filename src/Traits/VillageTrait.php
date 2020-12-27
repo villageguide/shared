@@ -435,10 +435,8 @@ trait VillageTrait
         array_push(
             $photoArray,
             [
-                [
-                    'title' => $title,
-                    'src'   => $src,
-                ]
+                'title' => $title,
+                'src'   => $src,
             ]
         );
     }

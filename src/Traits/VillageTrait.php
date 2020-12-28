@@ -455,6 +455,7 @@ trait VillageTrait
             [
                 'title' => $title,
                 'src'   => $src,
+                'isVideo' => $isVideo,
             ]
         );
     }

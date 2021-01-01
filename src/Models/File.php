@@ -112,6 +112,32 @@ class File extends Model
     }
 
     /**
+     * Resize image for template
+     * @param $width
+     * @param $height
+     *
+     * @return mixed
+     */
+    public function resizeVideo($width, $height)
+    {
+        $hash = md5($width . $height);
+
+        $filePathParts = explode('.'.$this->extension, $this->filepath);
+
+        $resizedFilePath = sprintf('%s_%s.%s', $filePathParts[0], $hash, $this->extension);
+
+        if (file_exists($resizedFilePath)) {
+            return $resizedFilePath;
+        }
+
+        if (file_exists($this->filepath)) {
+            Image::make($this->filepath)->crop($width, $height)->save($resizedFilePath);
+        }
+
+        return $resizedFilePath;
+    }
+
+    /**
      * @param $width
      *
      * @return string

@@ -439,7 +439,7 @@ trait VillageTrait
             }
 
             $title = $obj->thumb->title;
-            $src = asset($obj->thumb->resize(480, 350));
+            $src = asset($obj->thumb->resizeVideo(480, 350));
 
         } else {
             if (!$obj->file) {
